@@ -1,0 +1,73 @@
+{% extends "base_app.html" %}
+
+{% block page_content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="mb-10 flex items-center justify-between">
+        <div>
+            <a href="/profile" class="text-sm text-gray-500 hover:text-gray-900 mb-2 inline-block">&larr; Back to
+                Profile</a>
+            <h1 class="text-3xl font-bold text-gray-900">Health Check History</h1>
+            <p class="text-gray-500">Complete record of your cardiovascular risk assessments.</p>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+        {% if tests %}
+        <div class="overflow-x-auto">
+            <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-100 text-gray-500 uppercase text-xs tracking-wider">
+                    <tr>
+                        <th class="px-8 py-4">Date</th>
+                        <th class="px-8 py-4">Status</th>
+                        <th class="px-8 py-4">Risk Probability</th>
+                        <th class="px-8 py-4">Input Factors</th>
+                        <th class="px-8 py-4">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    {% for test in tests %}
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-8 py-5 text-sm text-gray-900 font-medium">
+                            {{ test.timestamp }}
+                        </td>
+                        <td class="px-8 py-5">
+                            <span
+                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold {{ 'bg-red-100 text-red-700' if test.result.risk == 'High' else 'bg-green-100 text-green-700' }}">
+                                {{ test.result.risk }} Risk
+                            </span>
+                        </td>
+                        <td class="px-8 py-5">
+                            <div class="flex items-center">
+                                <span class="text-sm font-bold text-gray-900 mr-3">{{ test.result.prob }}%</span>
+                                <div class="w-24 bg-gray-200 h-1.5 rounded-full overflow-hidden">
+                                    <div class="{{ 'bg-red-500' if test.result.prob > 50 else 'bg-green-500' }} h-full"
+                                        style="width: {{ test.result.prob }}%"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-8 py-5 text-sm text-gray-500">
+                            Age: {{ test.input_data.age|int }} | BMI: {{ ((test.input_data.weight|float) /
+                            ((test.input_data.height|float / 100)**2))|round(1) if test.input_data.height else 'N/A' }}
+                        </td>
+                        <td class="px-8 py-5">
+                            <button class="text-primary hover:text-red-700 text-sm font-medium">View Report</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="p-20 text-center">
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">📭
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">No History Found</h3>
+            <p class="text-gray-500 mb-8">You haven't completed any health assessments yet.</p>
+            <a href="/predictor/lifestyle"
+                class="bg-primary text-white px-6 py-3 rounded-xl font-bold hover:bg-red-600 transition-all shadow-lg shadow-red-200">Start
+                Assessment</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

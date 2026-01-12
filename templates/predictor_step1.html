@@ -1,0 +1,66 @@
+{% extends "base_app.html" %}
+
+{% block page_content %}
+<div class="max-w-3xl mx-auto py-12 px-4">
+    <div class="glass p-8 rounded-3xl animate-fade-in-up">
+        <div class="mb-8 border-b pb-4">
+            <h1 class="text-3xl font-bold text-gray-900">Step 1: Lifestyle Assessment</h1>
+            <p class="text-gray-500 mt-2">Let's check your daily habits first.</p>
+        </div>
+
+        <form action="/predictor/lifestyle" method="POST" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Age (Years)</label>
+                    <input type="number" name="age" value="30"
+                        class="w-full rounded-xl border-gray-300 focus:border-primary focus:ring-primary shadow-sm"
+                        required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Weight (kg)</label>
+                    <input type="number" name="weight" value="70"
+                        class="w-full rounded-xl border-gray-300 focus:border-primary focus:ring-primary shadow-sm"
+                        required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Height (cm)</label>
+                    <input type="number" name="height" value="170"
+                        class="w-full rounded-xl border-gray-300 focus:border-primary focus:ring-primary shadow-sm"
+                        required>
+                </div>
+            </div>
+
+            <div class="space-y-4 pt-4">
+                <p class="font-medium text-gray-900">Habits</p>
+                <label
+                    class="flex items-center p-4 border rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                    <input type="checkbox" name="smoke"
+                        class="rounded border-gray-300 text-primary w-5 h-5 focus:ring-primary">
+                    <span class="ml-3 text-gray-700">Do you smoke?</span>
+                </label>
+
+                <label
+                    class="flex items-center p-4 border rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                    <input type="checkbox" name="alco"
+                        class="rounded border-gray-300 text-primary w-5 h-5 focus:ring-primary">
+                    <span class="ml-3 text-gray-700">Do you consume alcohol frequently?</span>
+                </label>
+
+                <label
+                    class="flex items-center p-4 border rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                    <input type="checkbox" name="active" checked
+                        class="rounded border-gray-300 text-primary w-5 h-5 focus:ring-primary">
+                    <span class="ml-3 text-gray-700">Are you physically active?</span>
+                </label>
+            </div>
+
+            <button type="submit"
+                class="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg hover:bg-red-600 transition-all transform hover:scale-[1.01]">
+                Check Lifestyle Risk &rarr;
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

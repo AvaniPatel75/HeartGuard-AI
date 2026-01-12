@@ -1,0 +1,126 @@
+{% extends "base_app.html" %}
+
+{% block page_content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="text-center mb-16">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">Clinical Core & Model Intelligence</h1>
+        <p class="text-gray-500 max-w-2xl mx-auto text-lg">
+            HeartGuard leverages state-of-the-art machine learning algorithms. Below is a real-time benchmarking
+            analysis of our diagnostic engine.
+        </p>
+    </div>
+
+    <!-- Main Metric Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold mb-2">Primary Algorithm</p>
+            <h3 class="text-2xl font-bold text-primary">{{ stats.main_model }}</h3>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold mb-2">Accuracy Score</p>
+            <h3 class="text-2xl font-bold text-gray-900">{{ stats.accuracy }}%</h3>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold mb-2">ROC-AUC Score</p>
+            <h3 class="text-2xl font-bold text-emerald-600">{{ stats.roc_auc }}</h3>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold mb-2">Training Data</p>
+            <h3 class="text-2xl font-bold text-gray-900">{{ stats.dataset_size }} <span
+                    class="text-sm font-normal text-gray-400">records</span></h3>
+        </div>
+    </div>
+
+
+
+    <!-- Detailed Model Analysis (Line by Line) -->
+    <div class="mb-16">
+        <h3 class="text-2xl font-bold text-gray-900 mb-8 ml-2">Detailed Model Metrics</h3>
+        <div class="space-y-6">
+            {% for model in models %}
+            <div
+                class="bg-white p-6 rounded-2xl shadow-[0_2px_15px_rgb(0,0,0,0.02)] border border-gray-100 flex flex-col md:flex-row items-center gap-6 hover:shadow-md transition-all group">
+
+                <!-- Model Header -->
+                <div class="w-full md:w-1/4 flex flex-col justify-center">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div
+                            class="w-10 h-10 rounded-xl flex items-center justify-center text-lg font-bold bg-slate-50 text-slate-600 group-hover:bg-primary group-hover:text-white transition-colors">
+                            {{ loop.index }}
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-900">{{ model.name }}</h4>
+                    </div>
+                    <span
+                        class="inline-flex w-fit items-center px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-primary border border-blue-100">
+                        {{ model.acc }}% Accuracy
+                    </span>
+                </div>
+
+                <!-- Metrics Grid -->
+                <div class="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-8 w-full border-l border-gray-50 md:pl-8">
+
+                    <!-- Accuracy -->
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-xs text-gray-400 uppercase font-bold tracking-wider">Accuracy</span>
+                            <span class="text-xs font-bold text-gray-700">{{ model.acc }}%</span>
+                        </div>
+                        <div class="w-full bg-gray-100 rounded-full h-2">
+                            <div class="bg-blue-500 h-2 rounded-full transition-all duration-500"
+                                style="{{ 'width: ' ~ model.acc ~ '%' }}"></div>
+                        </div>
+                    </div>
+
+                    <!-- Precision -->
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-xs text-gray-400 uppercase font-bold tracking-wider">Precision</span>
+                            <span class="text-xs font-bold text-gray-700">{{ model.prec }}</span>
+                        </div>
+                        <div class="w-full bg-gray-100 rounded-full h-2">
+                            <div class="bg-purple-500 h-2 rounded-full transition-all duration-500"
+                                style="{{ 'width: ' ~ (model.prec * 100) ~ '%' }}"></div>
+                        </div>
+                    </div>
+
+                    <!-- Recall -->
+                    <div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-xs text-gray-400 uppercase font-bold tracking-wider">Recall</span>
+                            <span class="text-xs font-bold text-gray-700">{{ model.recall }}</span>
+                        </div>
+                        <div class="w-full bg-gray-100 rounded-full h-2">
+                            <div class="bg-emerald-500 h-2 rounded-full transition-all duration-500"
+                                style="{{ 'width: ' ~ (model.recall * 100) ~ '%' }}"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+    <!-- Clinical Relevance Box -->
+    <div class="bg-sky-50 border border-sky-100 p-8 rounded-3xl flex gap-6 items-start">
+        <div class="text-4xl">💡</div>
+        <div>
+            <h4 class="text-lg font-bold text-sky-900 mb-2">Clinical Relevance & Interpretation</h4>
+            <p class="text-sky-800 leading-relaxed">
+                In medical diagnostics, <strong>Recall (Sensitivity)</strong> is often the most critical metric. A high
+                recall score means the model minimizes "False Negatives"—ensuring that patients who truly have a heart
+                condition are not accidentally classified as healthy.
+                <br><br>
+                However, <strong>Precision</strong> is also vital to avoid "False Positives" (unnecessary anxiety). Our
+                <strong>Random Forest</strong> model achieves the best balance (F1-Score), making it our primary
+                diagnostic engine.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeartGuard AI</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#0284c7', // Medical Blue
+                        secondary: '#1e293b', // Slate Dark
+                        accent: '#0d9488',    // Teal
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .glass {
+                @apply bg-white/80 backdrop-blur-md border border-slate-200 shadow-sm;
+            }
+            .glass-dark {
+                @apply bg-slate-900/90 backdrop-blur-md border border-slate-700 shadow-lg text-white;
+            }
+        }
+        body {
+            background-color: #f8fafc; /* Slate-50 */
+            background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+
+<body class="text-gray-800 antialiased selection:bg-primary selection:text-white">
+    {% block content %}{% endblock %}
+</body>
+
+</html>

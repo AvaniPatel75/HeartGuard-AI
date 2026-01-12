@@ -1,0 +1,98 @@
+{% extends "base_app.html" %}
+
+{% block page_content %}
+<div class="max-w-4xl mx-auto px-4 py-8 h-[calc(100vh-80px)] flex flex-col">
+    <!-- Chat Header Area -->
+    <div
+        class="bg-white p-6 rounded-t-3xl border border-gray-200 border-b-0 flex justify-between items-center shadow-sm z-10">
+        <div class="flex items-center space-x-4">
+            <div class="relative">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-500 to-cyan-400 p-0.5">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=drheart"
+                        class="w-full h-full rounded-full bg-white" alt="AI Bot">
+                </div>
+                <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-gray-900">Dr. HeartGuard</h1>
+                <p class="text-xs text-gray-500 font-medium">Always online • AI Powered</p>
+            </div>
+        </div>
+        <button class="text-gray-400 hover:text-gray-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z">
+                </path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Chat Messages -->
+    <div class="flex-1 bg-gray-50 border-x border-gray-200 overflow-y-auto p-6 space-y-6" id="chat-container">
+        <div class="flex justify-center">
+            <span class="text-xs font-bold text-gray-400 bg-gray-200 px-3 py-1 rounded-full">Today</span>
+        </div>
+
+        <!-- Standard Welcome -->
+        <div class="flex justify-start">
+            <div
+                class="bg-white border border-gray-200 text-gray-800 px-5 py-3 rounded-2xl rounded-tl-none shadow-sm max-w-lg leading-relaxed">
+                <p>Hello back, {{ user }}! I hope you are feeling well today.</p>
+                <p class="mt-2 text-sm text-gray-500">I can help analyze your latest risk reports or suggest diet plans.
+                </p>
+            </div>
+        </div>
+
+        {% for msg in messages %}
+        <div class="flex {% if msg.role == 'user' %}justify-end{% else %}justify-start{% endif %} animate-fade-in-up">
+            {% if msg.role == 'assistant' %}
+            <div
+                class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-cyan-400 p-0.5 mr-2 flex-shrink-0 self-end mb-1">
+                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=drheart"
+                    class="w-full h-full rounded-full bg-white">
+            </div>
+            {% endif %}
+
+            <div
+                class="{% if msg.role == 'user' %}bg-primary text-white rounded-tr-none{% else %}bg-white border border-gray-200 text-gray-800 rounded-tl-none{% endif %} px-5 py-3 rounded-2xl shadow-sm max-w-lg leading-relaxed">
+                {{ msg.content }}
+            </div>
+
+            {% if msg.role == 'user' %}
+            <div class="w-8 h-8 rounded-full bg-gray-200 ml-2 flex-shrink-0 self-end mb-1 overflow-hidden">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ user }}" class="w-full h-full">
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Input Area -->
+    <div class="bg-white p-4 rounded-b-3xl border border-gray-200 border-t-0 shadow-sm relative z-10">
+        <form action="/chat" method="POST" class="flex items-center gap-3">
+            <button type="button"
+                class="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13">
+                    </path>
+                </svg>
+            </button>
+            <input type="text" name="prompt" required placeholder="Type a message..."
+                class="flex-1 bg-gray-50 border-0 focus:ring-0 rounded-xl px-4 py-3 text-gray-800 placeholder-gray-400 focus:bg-gray-100 transition-colors">
+            <button type="submit"
+                class="bg-primary hover:bg-red-600 text-white p-3 rounded-xl shadow-lg transition-transform active:scale-95">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                </svg>
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const chatContainer = document.getElementById('chat-container');
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+</script>
+{% endblock %}
